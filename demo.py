@@ -62,6 +62,38 @@ for problem in ["fome12","neos-860300"]:
 
 results_df = pd.DataFrame(results)
 
-results_df.set_index(['solver', 'threads'], inplace=True)
+results_df.set_index(['solver', 'threads','problem'], inplace=True)
+
+# Get unique problems and solvers
+unique_problems = results_df.index.get_level_values('problem').unique()
+unique_solvers = results_df.index.get_level_values('solver').unique()
+
+# Dictionary to store the restructured data for each problem
+restructured_dfs = {}
+
+# Create a multi-level index for the rows
+multi_index = pd.MultiIndex.from_product([unique_solvers, ['wall', 'proc']], names=['solver', 'type'])
+
+for problem in unique_problems:
+    # Create a temporary list to hold the data
+    temp_data = []
+    for solver in unique_solvers:
+        for measure in ['wall', 'proc']:
+            # Extract the series for the current solver and measure
+            data_series = results_df.xs((solver, problem), level=('solver', 'problem'))[measure]
+            temp_data.append(data_series.values)
+    
+    # Create a DataFrame from the temp_data with the new multi-level row index
+    # and columns as the sorted unique threads
+    problem_df = pd.DataFrame(temp_data, index=multi_index, columns=sorted(results_df.index.get_level_values('threads').unique()))
+
+    # Store the DataFrame in the dictionary
+    restructured_dfs[problem] = problem_df
+
+# Now you can print the DataFrames in the desired format
+for problem, df in restructured_dfs.items():
+    print(f"\n{problem}\n")
+    print(df)
+
 
 print(results_df)
