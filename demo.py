@@ -14,7 +14,8 @@ def get_solvers(n_threads):
         yield ('highs',{}) # Default serial
     else:
         kSimplexStrategyDualTasks = 2
-        yield ('highs',{"highs": {"simplex_strategy": kSimplexStrategyDualTasks,"simplex_min_concurrency":n_threads,"simplex_max_concurrency":n_threads,"threads": n_threads,"parallel":"on"}})
+        kSimplexStrategyDualMulti = 3
+        yield ('highs',{"highs": {"simplex_strategy": kSimplexStrategyDualMulti,"simplex_min_concurrency":n_threads,"simplex_max_concurrency":n_threads,"threads": n_threads,"parallel":"on"}})
 
 results = []
 
