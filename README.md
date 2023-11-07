@@ -46,3 +46,26 @@ Columns is amount of threads.
 Wall indicates the amount of physical seconds that have elapsed to solve the problem to completion.
 
 Proc indicates the sum of CPU seconds used to solve the problem.
+
+Windows
+
+(proc is not correctly measured)
+```
+fome12
+
+                     1          2          4          8
+solver type
+cbc    wall  47.012366  52.288801  51.381861  49.880916
+       proc  47.013000  52.288000  51.382000  49.881000
+highs  wall  60.838899  59.365424  44.892679  38.377250
+       proc  60.839000  59.365000  44.893000  38.378000
+
+neos-860300
+
+                      1           2           4          8
+solver type
+cbc    wall  186.146104  119.703035  111.859028  80.223066
+       proc  186.145000  119.703000  111.859000  80.226000
+highs  wall   19.209713   19.899744   24.875513  28.614195
+       proc   19.209000   19.900000   24.874000  28.615000
+```
